@@ -1,3 +1,6 @@
+# IMPORTS
+import argparse
+
 # CONSTS
 IMPERIAL_BMI_MULTIPLIER = 703
 
@@ -31,17 +34,38 @@ def weight_range_calculator(bmi):
 
 
 def main():
-    print("Hi, welcome in BMI calculator!")
-    units = input("Do you want to use metric (m) or imperial (i) units? (M/I)\n")
+    parser = argparse.ArgumentParser(prog="calculator.py", usage="python3 %(prog)s [-h] [-H HEIGHT] [-W WEIGHT] ["
+                                                                 "--units=metric]", description="This is simple BMI "
+                                                                                                "calculator",
+                                     epilog="Author: SoSaymon")
+    parser.add_argument("-W", "--weight", type=float, help="Your weight. Example 68 or 149.1 (for imperial units)")
+    parser.add_argument("-H", "--height", type=float, help="Your weight. Example 1.83 or 72 (for imperial units)")
+    parser.add_argument("--units", type=str, default="metric", help="Units for your measurements (imperial or "
+                                                                    "metric (default))")
+
+    args = parser.parse_args()
+    weight = args.weight
+    height = args.height
+    units = args.units
+
     bmi = 0.0
-    if units.lower() == "m":
-        height = float(input("Please tell me your height in meters\nExample input: 1.83\n"))
-        weight = float(input("Please tell me your weight in kilograms\nExample input: 70.5\n"))
-        bmi = calculate_bmi(height, weight)
-    elif units.lower() == "i":
-        height = float(input("Please tell me your height in inches\nExample input: 72.2\n"))
-        weight = float(input("Please tell me your weight in pounds\nExample input: 150\n"))
-        bmi = calculate_bmi(height, weight, "imperial")
+
+    if (weight is not None) and (height is not None):
+        if units == "metric":
+            bmi = calculate_bmi(height, weight)
+        else:
+            bmi = calculate_bmi(height, weight, "imperial")
+    else:
+        print("Hi, welcome in BMI calculator!")
+        units = input("Do you want to use metric (m) or imperial (i) units? (M/I)\n")
+        if units.lower() == "m":
+            height = float(input("Please tell me your height in meters\nExample input: 1.83\n"))
+            weight = float(input("Please tell me your weight in kilograms\nExample input: 70.5\n"))
+            bmi = calculate_bmi(height, weight)
+        elif units.lower() == "i":
+            height = float(input("Please tell me your height in inches\nExample input: 72.2\n"))
+            weight = float(input("Please tell me your weight in pounds\nExample input: 150\n"))
+            bmi = calculate_bmi(height, weight, "imperial")
 
     weight_range = weight_range_calculator(bmi)
 
@@ -53,7 +77,4 @@ if __name__ == '__main__':
     main()
 
 # TODO
-# passing arguments
 # detecting whether given in cm or m
-# version for passing arguments and without passing args
-# add obese index
