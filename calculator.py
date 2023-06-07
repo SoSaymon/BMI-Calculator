@@ -75,6 +75,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-# TODO
-# detecting whether given in cm or m
