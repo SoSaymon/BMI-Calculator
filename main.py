@@ -17,6 +17,19 @@ def calculate_bmi(height, weight, units="metric"):
     return round(bmi, 2)
 
 
+def weight_range_calculator(bmi):
+    if bmi < 18.5:
+        category = "underweight"
+    elif bmi <= 24.9:
+        category = "normal"
+    elif bmi <= 29.9:
+        category = "overweight"
+    else:
+        category = "obese"
+
+    return category
+
+
 def main():
     print("Hi, welcome in BMI calculator!")
     units = input("Do you want to use metric (m) or imperial (i) units? (M/I)\n")
@@ -30,7 +43,9 @@ def main():
         weight = float(input("Please tell me your weight in pounds\nExample input: 150\n"))
         bmi = calculate_bmi(height, weight, "imperial")
 
-    print(f"Your BMI is {bmi}")
+    weight_range = weight_range_calculator(bmi)
+
+    print(f"Your BMI is {bmi} and you are {weight_range}")
     return 0
 
 
